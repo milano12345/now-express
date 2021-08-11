@@ -8,7 +8,9 @@ const app = express();
 const port = 5000;
 
 // Body parser
-app.use(express.urlencoded({ extended: false }));
+// app.use(express.urlencoded({ extended: false }));
+app.use(express.json())
+app.use(cors())
 
 const contactEmail = nodemailer.createTransport({
   service: 'gmail',
@@ -30,7 +32,7 @@ contactEmail.verify((error) => {
 });
 
 
-app.post("/contact", cors(), (req, res, next) => {
+app.post("/contact", (req, res, next) => {
   const name = req.body.name;
   const email = req.body.email;
   const message = req.body.message; 
