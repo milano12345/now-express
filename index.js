@@ -1,15 +1,17 @@
 const express = require("express");
 const nodemailer = require("nodemailer");
+const cors = require('cors')
 require('dotenv').config()
 
 const app = express();
+
+app.use(cors())
 
 
 const port = 5000;
 
 // Body parser
 app.use(express.urlencoded({ extended: false }));
-app.use(express.json());
 
 app.use(function(req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', ['*']);
