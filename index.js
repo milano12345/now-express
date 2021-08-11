@@ -8,15 +8,9 @@ const app = express();
 const port = 5000;
 
 // Body parser
-// app.use(express.urlencoded({ extended: false }));
-app.use(express.json())
+app.use(express.urlencoded({ extended: false }));
 app.use(cors())
 app.options('*', cors())
-app.use(
-  res.set({
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-  }))
 
 const contactEmail = nodemailer.createTransport({
   service: 'gmail',
@@ -39,6 +33,7 @@ contactEmail.verify((error) => {
 
 
 app.post("/contact", (req, res, next) => {
+  res.set('Access-Control-Allow-Origin', 'https://speakers.vercel.app')
   const name = req.body.name;
   const email = req.body.email;
   const message = req.body.message; 
