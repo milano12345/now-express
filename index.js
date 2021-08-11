@@ -9,6 +9,7 @@ const port = 5000;
 
 // Body parser
 app.use(express.urlencoded({ extended: false }));
+//app.use(express.json())
 app.use(cors())
 app.options('*', cors())
 
