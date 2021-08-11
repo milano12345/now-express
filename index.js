@@ -33,10 +33,6 @@ contactEmail.verify((error) => {
 
 
 app.post("/contact", (req, res, next) => {
-  const origin = ctx.get('origin');
-  //check if you want to allow this origin
-  //if you want to allow it,
-  ctx.set('Access-Control-Allow-Origin', origin);
   const name = req.body.name;
   const email = req.body.email;
   const message = req.body.message; 
