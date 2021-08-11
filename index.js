@@ -49,7 +49,7 @@ contactEmail.verify((error) => {
 });
 
 
-app.post("/contact", (req, res) => {
+app.post("/contact", cors(), (req, res, next) => {
   const name = req.body.name;
   const email = req.body.email;
   const message = req.body.message; 
