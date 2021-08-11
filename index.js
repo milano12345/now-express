@@ -17,6 +17,7 @@ const port = 5000;
 
 // Body parser
 app.use(express.urlencoded({ extended: false }));
+app.options('/contact', cors())
 
 
 app.use(function(req, res, next) {
