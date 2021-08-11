@@ -5,31 +5,10 @@ require('dotenv').config()
 
 const app = express();
 
-var corsOptions = {
-  origin: 'https://speakers.vercel.app',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-}
-
-app.use(cors(corsOptions))
-app.use(cors())
-
-
 const port = 5000;
 
 // Body parser
 app.use(express.urlencoded({ extended: false }));
-app.options('/contact', cors())
-
-
-app.use(function(req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', ['*']);
-  res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  res.setHeader('Content-Type', "application/json")
-  
-  res.set('Access-Control-Allow-Credentials', true)
-  console.log('headers set')
-  next()
-});
 
 const contactEmail = nodemailer.createTransport({
   service: 'gmail',
