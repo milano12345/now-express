@@ -1,6 +1,7 @@
 const express = require("express");
 const nodemailer = require("nodemailer");
 require('dotenv').config()
+const cors = require("cors");
 
 const app = express();
 
@@ -8,6 +9,7 @@ const port = 5000;
 
 // Body parser
 app.use(express.urlencoded({ extended: false }));
+app.use(cors());
 
 const contactEmail = nodemailer.createTransport({
   service: 'gmail',
