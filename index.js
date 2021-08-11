@@ -11,6 +11,7 @@ const port = 5000;
 // app.use(express.urlencoded({ extended: false }));
 app.use(express.json())
 app.use(cors())
+app.options('*', cors())
 app.use(
   res.set({
     "Content-Type": "application/json",
