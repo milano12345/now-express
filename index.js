@@ -9,7 +9,13 @@ const port = 5000;
 
 // Body parser
 app.use(express.urlencoded({ extended: false }));
-app.use(cors());
+
+
+var corsOptions = {
+  origin: '*',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204 
+}
+app.use(cors(corsOptions));
 
 const contactEmail = nodemailer.createTransport({
   service: 'gmail',
