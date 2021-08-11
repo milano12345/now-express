@@ -5,13 +5,19 @@ require('dotenv').config()
 
 const app = express();
 
-app.use(cors())
+var corsOptions = {
+  origin: 'https://speakers.vercel.app',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
+
+app.use(cors(corsOptions))
 
 
 const port = 5000;
 
 // Body parser
 app.use(express.urlencoded({ extended: false }));
+
 
 app.use(function(req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', ['*']);
