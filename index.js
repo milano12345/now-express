@@ -1,10 +1,54 @@
 const express = require("express");
+const nodemailer = require("nodemailer");
+require('dotenv').config()
+
 const app = express();
 
 const port = 5000;
 
 // Body parser
 app.use(express.urlencoded({ extended: false }));
+
+const contactEmail = nodemailer.createTransport({
+  service: 'gmail',
+  host: "smtp.example.com",
+  port: 587,
+  secure: false,
+  auth: {
+    user: process.env.DB_EMAIL,
+    pass: process.env.DB_PASS,
+  },
+});
+
+contactEmail.verify((error) => {
+  if (error) {
+    console.log(error);
+  } else {
+    console.log("Ready to Send");
+  }
+});
+
+
+app.post("/contact", (req, res) => {
+  const name = req.body.name;
+  const email = req.body.email;
+  const message = req.body.message; 
+  const mail = {
+    from: name,
+    to: process.env.DB_EMAIL,
+    subject: "Contact Form Submission",
+    html: `<p>Name: ${name}</p>
+           <p>Email: ${email}</p>
+           <p>Message: ${message}</p>`,
+  };
+  contactEmail.sendMail(mail, (error) => {
+    if (error) {
+      res.json({ status: "ERROR" });
+    } else {
+      res.json({ status: "Message Sent" });
+    }
+  });
+});
 
 // Home route
 app.get("/", (req, res) => {
