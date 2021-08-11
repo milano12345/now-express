@@ -1,7 +1,6 @@
 const express = require("express");
 const nodemailer = require("nodemailer");
 require('dotenv').config()
-const cors = require("cors");
 
 const app = express();
 
@@ -10,12 +9,11 @@ const port = 5000;
 // Body parser
 app.use(express.urlencoded({ extended: false }));
 
-
-var corsOptions = {
-  origin: '*',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204 
-}
-app.use(cors(corsOptions));
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 const contactEmail = nodemailer.createTransport({
   service: 'gmail',
