@@ -20,7 +20,7 @@ app.options('/contact', function (req, res) {
 });
 
 app.use(cors({
-  origin: 'https://speakers.vercel.app'
+  origin: '*'
 }));
 
 const contactEmail = nodemailer.createTransport({
