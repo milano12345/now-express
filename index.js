@@ -1,5 +1,6 @@
 const express = require("express");
 const nodemailer = require("nodemailer");
+const router = express.Router();
 require('dotenv').config()
 const cors = require('cors');
 
@@ -11,17 +12,17 @@ const port = 5000;
 app.use(express.json())
 app.use(cors());
 
-app.options('/contact', function (req, res) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader('Access-Control-Allow-Methods', '*');
-  res.setHeader("Access-Control-Allow-Headers", "*");
-  res.set("Access-Control-Expose-Headers: *")
-  res.end();
-});
+// app.options('/contact', function (req, res) {
+//   res.setHeader("Access-Control-Allow-Origin", "*");
+//   res.setHeader('Access-Control-Allow-Methods', '*');
+//   res.setHeader("Access-Control-Allow-Headers", "*");
+//   res.set("Access-Control-Expose-Headers: *")
+//   res.end();
+// });
 
-app.use(cors({
-  origin: '*'
-}));
+// app.use(cors({
+//   origin: '*'
+// }));
 
 const contactEmail = nodemailer.createTransport({
   service: 'gmail',
@@ -43,7 +44,7 @@ contactEmail.verify((error) => {
 });
 
 
-app.post("/contact", (req, res, next) => {
+router.post("/contact", (req, res, next) => {
   const name = req.body.name;
   const email = req.body.email;
   const message = req.body.message; 
@@ -65,26 +66,26 @@ app.post("/contact", (req, res, next) => {
 });
 
 // Home route
-app.get("/", (req, res) => {
+router.get("/", (req, res) => {
   res.send("Welcome to a basic express App");
 });
 
 // Mock API
-app.get("/users", (req, res) => {
+router.get("/users", (req, res) => {
   res.json([
     { name: "William", location: "Abu Dhabi" },
     { name: "Chris", location: "Vegas" }
   ]);
 });
 
-app.post("/user", (req, res) => {
+router.post("/user", (req, res) => {
   const { name, location } = req.body;
 
   res.send({ status: "User created", name, location });
 });
 
 // Listen on port 5000
-app.listen(port, () => {
+router.listen(port, () => {
   console.log(`Server is booming on port 5000
 Visit http://localhost:5000`);
 });
