@@ -11,6 +11,9 @@ const port = 5000;
 // Body parser
 app.use(express.json())
 app.use(cors());
+app.use(cors({
+  origin: '*'
+}));
 
 // app.options('/contact', function (req, res) {
 //   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -19,7 +22,11 @@ app.use(cors());
 //   res.set("Access-Control-Expose-Headers: *")
 //   res.end();
 // });
-
+// app.use(function(req, res, next) {
+//   res.setHeader("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//   next();
+// });
 // app.use(cors({
 //   origin: '*'
 // }));
@@ -44,8 +51,9 @@ contactEmail.verify((error) => {
 });
 
 
-router.post("/contact", (req, res, next) => {
+app.post("/contact", (req, res, next) => {
   const name = req.body.name;
+  console.log('endpoint hit')
   const email = req.body.email;
   const message = req.body.message; 
   const mail = {
@@ -66,19 +74,19 @@ router.post("/contact", (req, res, next) => {
 });
 
 // Home route
-router.get("/", (req, res) => {
+app.get("/", (req, res) => {
   res.send("Welcome to a basic express App");
 });
 
 // Mock API
-router.get("/users", (req, res) => {
+app.get("/users", (req, res) => {
   res.json([
     { name: "William", location: "Abu Dhabi" },
     { name: "Chris", location: "Vegas" }
   ]);
 });
 
-router.post("/user", (req, res) => {
+app.post("/user", (req, res) => {
   const { name, location } = req.body;
 
   res.send({ status: "User created", name, location });
