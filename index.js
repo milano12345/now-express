@@ -15,6 +15,7 @@ app.options('/contact', function (req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader('Access-Control-Allow-Methods', '*');
   res.setHeader("Access-Control-Allow-Headers", "*");
+  res.setHeader("Access-Control-Allow-Credentials", true);
   res.set("Access-Control-Expose-Headers: *")
   res.end();
 });
