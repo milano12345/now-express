@@ -11,7 +11,7 @@ const port = 5000;
 app.use(express.json())
 app.use(cors());
 
-app.options('/login', function (req, res) {
+app.options('/contact', function (req, res) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader('Access-Control-Allow-Methods', '*');
   res.setHeader("Access-Control-Allow-Headers", "*");
