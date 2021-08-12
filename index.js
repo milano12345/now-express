@@ -19,6 +19,10 @@ app.options('/contact', function (req, res) {
   res.end();
 });
 
+app.use(cors({
+  origin: 'https://speakers.vercel.app'
+}));
+
 const contactEmail = nodemailer.createTransport({
   service: 'gmail',
   host: "smtp.example.com",
