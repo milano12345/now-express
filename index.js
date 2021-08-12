@@ -1,8 +1,8 @@
 const express = require("express");
 const nodemailer = require("nodemailer");
-const router = express.Router();
 require('dotenv').config()
 const cors = require('cors');
+const path = require('path')
 
 const app = express();
 
@@ -10,23 +10,25 @@ const port = 5000;
 
 // Body parser
 app.use(express.json())
-app.use(cors());
-app.use(cors({
-  origin: '*'
-}));
 
-// app.options('/contact', function (req, res) {
-//   res.setHeader("Access-Control-Allow-Origin", "*");
-//   res.setHeader('Access-Control-Allow-Methods', '*');
-//   res.setHeader("Access-Control-Allow-Headers", "*");
-//   res.set("Access-Control-Expose-Headers: *")
-//   res.end();
-// });
-// app.use(function(req, res, next) {
-//   res.setHeader("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
-//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//   next();
-// });
+app.use(cors());
+
+// app.options('/contact', function(req, res) {
+//     app.use(express.methodOverride());
+//     app.use(express.bodyParser());
+//     app.use(function(req, res, next) {
+//       res.header("Access-Control-Allow-Origin", "*");
+//       res.header("Access-Control-Allow-Headers", "X-Requested-With");
+//       next();
+//     });
+//  });
+
+app.use(function(req, res, next) {
+  res.setHeader("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+  res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  next();
+});
 // app.use(cors({
 //   origin: '*'
 // }));
