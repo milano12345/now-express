@@ -85,7 +85,7 @@ router.post("/user", (req, res) => {
 });
 
 // Listen on port 5000
-router.listen(port, () => {
+app.listen(port, () => {
   console.log(`Server is booming on port 5000
 Visit http://localhost:5000`);
 });
