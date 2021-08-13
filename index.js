@@ -80,6 +80,10 @@ app.get("/", (req, res) => {
   res.send("Welcome to a basic express App");
 });
 
+app.get("/contact", (req, res) => {
+  res.send("Welcome to a basic express app - contact page");
+});
+
 // Mock API
 app.get("/users", (req, res) => {
   res.json([
