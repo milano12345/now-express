@@ -2,7 +2,7 @@ const express = require("express");
 const nodemailer = require("nodemailer");
 require('dotenv').config()
 const cors = require('cors');
-const path = require('path')
+const router = express.Router();
 
 const app = express();
 
@@ -12,6 +12,8 @@ const port = 5000;
 app.use(express.json())
 
 app.use(cors());
+
+app.use("/", router);
 
 // app.options('/contact', function(req, res) {
 //     app.use(express.methodOverride());
@@ -52,11 +54,11 @@ contactEmail.verify((error) => {
   }
 });
 
-app.get("/contact", (req, res) => {
-  res.send("Welcome to a basic express app - contact page");
+router.get("/contact", (req, res) => {
+  res.send("Welcome to a basic express router - contact page");
 });
 
-app.post("/contact", (req, res, next) => {
+router.post("/contact", (req, res, next) => {
   const name = req.body.name;
   console.log('endpoint hit')
   const email = req.body.email;
@@ -79,20 +81,20 @@ app.post("/contact", (req, res, next) => {
 });
 
 // Home route
-app.get("/", (req, res) => {
+router.get("/", (req, res) => {
   res.send("Welcome to a basic express App");
 });
 
 
 // Mock API
-app.get("/users", (req, res) => {
+router.get("/users", (req, res) => {
   res.json([
     { name: "William", location: "Abu Dhabi" },
     { name: "Chris", location: "Vegas" }
   ]);
 });
 
-app.post("/user", (req, res) => {
+router.post("/user", (req, res) => {
   const { name, location } = req.body;
 
   res.send({ status: "User created", name, location });
