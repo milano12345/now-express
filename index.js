@@ -2,11 +2,14 @@ const express = require("express");
 const nodemailer = require("nodemailer");
 require('dotenv').config()
 const cors = require('cors');
+const stripe = require('stripe')('sk_test_51JO53hGd6y5dsV4wldeuMRLbt9xf101lbVCgOGiFaODbUAbZraWxtozER3CLknN71cDa1jshIDRTw8MMjohbtKAn00grvq64e8');
 const router = express.Router();
 
 const app = express();
 
 const port = 5000;
+
+app.use(express.static('.'));
 
 // Body parser
 app.use(express.json())
@@ -35,6 +38,13 @@ app.use(function(req, res, next) {
 //   origin: '*'
 // }));
 
+
+router.get("/contact", (req, res) => {
+  res.send("Welcome to a basic express router - contact page");
+});
+
+router.post("/contact", (req, res, next) => {
+  
 const contactEmail = nodemailer.createTransport({
   service: 'gmail',
   host: "smtp.gmail.com",
@@ -54,11 +64,6 @@ contactEmail.verify((error) => {
   }
 });
 
-router.get("/contact", (req, res) => {
-  res.send("Welcome to a basic express router - contact page");
-});
-
-router.post("/contact", (req, res, next) => {
   const name = req.body.name;
   console.log('endpoint hit')
   const email = req.body.email;
@@ -104,4 +109,25 @@ router.post("/user", (req, res) => {
 app.listen(port, () => {
   console.log(`Server is booming on port 5000
 Visit http://localhost:5000`);
+});
+
+
+router.post('/create-checkout-session', async (req, res) => {
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: [
+      'card',
+    ],
+    line_items: [
+      {
+        // TODO: replace this with the `price` of the product you want to sell
+        price: 'price_1JO5NBGd6y5dsV4wVkW3JIvI',
+        quantity: 1
+      },
+    ],
+    mode: 'payment',
+    success_url: `${YOUR_DOMAIN}?success=true`,
+    cancel_url: `${YOUR_DOMAIN}?canceled=true`,
+  });
+
+  res.redirect(303, session.url)
 });
