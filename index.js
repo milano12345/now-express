@@ -105,14 +105,8 @@ router.post("/user", (req, res) => {
   res.send({ status: "User created", name, location });
 });
 
-// Listen on port 5000
-app.listen(port, () => {
-  console.log(`Server is booming on port 5000
-Visit http://localhost:5000`);
-});
-
-
 router.post('/create-checkout-session', async (req, res) => {
+  console.log('payment', req.body)
   const session = await stripe.checkout.sessions.create({
     payment_method_types: [
       'card',
@@ -131,3 +125,11 @@ router.post('/create-checkout-session', async (req, res) => {
 
   res.redirect(303, session.url)
 });
+
+// Listen on port 5000
+app.listen(port, () => {
+  console.log(`Server is booming on port 5000
+Visit http://localhost:5000`);
+});
+
+
