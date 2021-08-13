@@ -82,7 +82,7 @@ router.post("/contact", (req, res, next) => {
 
 // Home route
 router.get("/", (req, res) => {
-  res.send("Welcome to a basic express App");
+  res.send("Welcome to a basic express app");
 });
 
 
