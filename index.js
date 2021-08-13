@@ -52,6 +52,9 @@ contactEmail.verify((error) => {
   }
 });
 
+app.get("/contact", (req, res) => {
+  res.send("Welcome to a basic express app - contact page");
+});
 
 app.post("/contact", (req, res, next) => {
   const name = req.body.name;
@@ -80,9 +83,6 @@ app.get("/", (req, res) => {
   res.send("Welcome to a basic express App");
 });
 
-app.get("/contact", (req, res) => {
-  res.send("Welcome to a basic express app - contact page");
-});
 
 // Mock API
 app.get("/users", (req, res) => {
