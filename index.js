@@ -7,7 +7,7 @@ app.use(cors());
 const stripe = require('stripe')('sk_test_51JO53hGd6y5dsV4wldeuMRLbt9xf101lbVCgOGiFaODbUAbZraWxtozER3CLknN71cDa1jshIDRTw8MMjohbtKAn00grvq64e8');
 const router = express.Router();
 
-const port = 5000;
+const port = 3000;
 
 // Body parser
 app.use(express.json())
@@ -97,17 +97,28 @@ router.post("/user", (req, res) => {
   res.send({ status: "User created", name, location });
 });
 
+
+
 router.post('/create-checkout-session', async (req, res, next) => {
-  console.log('payment', req.body)
+  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Methods", 'GET, PUT, POST, DELETE, HEAD, OPTIONS')
+  s = req.body.price + "00"
+  console.log('payment', s )
   const session = await stripe.checkout.sessions.create({
     payment_method_types: [
       'card',
     ],
     line_items: [
       {
-        // TODO: replace this with the `price` of the product you want to sell
-        price: 'price_1JO5NBGd6y5dsV4wVkW3JIvI',
-        quantity: 1
+        price_data: {
+          currency: 'usd',
+          product_data: {
+            name: 'T-shirt',
+          },
+          unit_amount: s,
+        },
+        quantity: 1,
       },
     ],
     mode: 'payment',
