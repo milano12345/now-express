@@ -1,20 +1,16 @@
 const express = require("express");
+const app = express();
 const nodemailer = require("nodemailer");
 require('dotenv').config()
 const cors = require('cors');
+app.use(cors());
 const stripe = require('stripe')('sk_test_51JO53hGd6y5dsV4wldeuMRLbt9xf101lbVCgOGiFaODbUAbZraWxtozER3CLknN71cDa1jshIDRTw8MMjohbtKAn00grvq64e8');
 const router = express.Router();
 
-const app = express();
-
 const port = 5000;
-
-app.use(express.static('.'));
 
 // Body parser
 app.use(express.json())
-
-app.use(cors());
 
 app.use("/", router);
 
@@ -27,16 +23,12 @@ app.use("/", router);
 //       next();
 //     });
 //  });
-
 app.use(function(req, res, next) {
-  res.setHeader("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
-  res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header("Access-Control-Allow-Methods", 'GET, PUT, POST, DELETE, HEAD, OPTIONS')
   next();
 });
-// app.use(cors({
-//   origin: '*'
-// }));
 
 
 router.get("/contact", (req, res) => {
@@ -105,7 +97,7 @@ router.post("/user", (req, res) => {
   res.send({ status: "User created", name, location });
 });
 
-router.post('/create-checkout-session', async (req, res) => {
+router.post('/create-checkout-session', async (req, res, next) => {
   console.log('payment', req.body)
   const session = await stripe.checkout.sessions.create({
     payment_method_types: [
